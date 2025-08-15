@@ -11,7 +11,7 @@ body {
   max-width: 1200px;
   padding-left: 50px;
   padding-right: 50px;
-  background: rgba(0,0,0, 0.15);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5.9px);
@@ -21,6 +21,8 @@ body {
 /*=== Main container styles end === */
 /*=== Hero section styles ===*/
 .hero {
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 .hero-content {
   display: flex;
@@ -161,6 +163,7 @@ footer {
   fill: #333;
 }
 /* === Social buttons styles end === */
+/* === CTA button styles ===  */
 .cta-btn {
   display: inline-block;
   text-align: center;
@@ -203,14 +206,83 @@ footer {
   background: #8e00e5;
   transition: background 0s;
 }
-/* === CTA button styles ===  */
 
 /* === CTA button styles end === */
+/* === hero image styles === */
+.profile {
+  perspective: 1000px;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.holo-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(0, 255, 255, 0.3) 0%,
+    rgba(255, 0, 255, 0.3) 50%,
+    rgba(0, 200, 255, 0.3) 100%
+  );
+  opacity: 0;
+  mix-blend-mode: overlay;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+}
+.holo-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    transparent 45%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 55%
+  );
+  transform: rotate(30deg) translateY(-100%);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.8s ease;
+  z-index: 3;
+}
+.profile-image:hover {
+  transform: rotateY(-20deg);
+}
+
+.profile-image:hover .holo-effect {
+  opacity: 1;
+}
+
+.profile-image:hover .holo-shine {
+  opacity: 1;
+  transform: rotate(30deg) translateY(100%);
+}
+/* === hero image styles end === */
 /* === Link Styles === */
 a {
   text-decoration: none;
   cursor: pointer;
   color: inherit;
+  font-family: "Jost", serif;
 }
 /* === Link Styles end === */
 /* === font styles === */
