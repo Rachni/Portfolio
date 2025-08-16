@@ -33,7 +33,7 @@ body {
 }
 .hero h1 {
   font-family: "Titan One", sans-serif;
-  font-size: 50px;
+  font-size: 80px;
   font-weight: 400;
 }
 .hero-title .hero-title-highlight {
@@ -265,7 +265,7 @@ footer {
   z-index: 3;
 }
 .profile-image:hover {
-  transform: rotateY(-20deg);
+  transform: rotateY(-15deg);
 }
 
 .profile-image:hover .holo-effect {
@@ -296,6 +296,55 @@ p {
   text-shadow: -1px -1px 0 #ff9250, 1px -1px 0 #ff9250, -1px 1px 0 #ff9250,
     1px 1px 0 #ff9250;
 }
+/* === Scroller styles === */
+.technologies-scroller-container {
+  max-width: 1200px;
+}
+.technologies-scroller {
+  padding-block: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.technologies-item svg {
+  width: 100px;
+  height: auto;
+  -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.7));
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.technologies-scroller-container[data-animated="true"] {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(
+    90deg,
+    transparent,
+    white 20%,
+    white 80%,
+    transparent
+  );
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+.technologies-scroller-container[data-animated="true"] .technologies-scroller {
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll var(--_animation-duration, 40s)
+    var(--_animation-direction, forwards) linear infinite;
+}
+.technologies-scroller-container[data-direction="right"] {
+  --animation-direction: reverse;
+}
+.technologies-scroller-container[data-direction="left"] {
+  --animation-direction: forwards;
+}
+.technologies-scroller-container[data-speed="fast"] {
+  --_animation-duration: 20s;
+}
+
+.technologies-scroller-container[data-speed="slow"] {
+  --_animation-duration: 60s;
+}
+/* === Scroller styles end === */
 /* === font styles end === */
 @media (max-width: 1024px) {
   .hero-content {
@@ -318,5 +367,10 @@ p {
 @keyframes rainbow {
   to {
     transform: translateX(-25%);
+  }
+}
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
   }
 }

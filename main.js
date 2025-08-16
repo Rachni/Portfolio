@@ -1,8 +1,8 @@
-// main.js
+// imports
 import * as THREE from "https://unpkg.com/three@0.150.0/build/three.module.js";
 import { NeatGradient } from "https://esm.sh/@firecms/neat";
 
-// Configuración del gradient
+// Gradient config
 export const config = {
   colors: [
     { color: "#FF7954", enabled: true },
@@ -33,14 +33,32 @@ export const config = {
   yOffset: 0,
 };
 
-// Elemento HTML para el gradient
 const gradientElement = document.getElementById("gradient");
 
-// Crear el gradient
 const neat = new NeatGradient({
   ref: gradientElement,
   ...config,
 });
 
-// Limpieza si se recarga la página
+// cleaning if page reloads
 window.addEventListener("beforeunload", () => neat.destroy());
+
+// ===== SCROLLER ===== //
+const scroller = document.querySelector(".technologies-scroller-container");
+
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  addAnimation();
+}
+
+function addAnimation() {
+  scroller.setAttribute("data-animated", true);
+  
+  const scrollerInner = scroller.querySelector(".technologies-scroller");
+  const scrollerContent = Array.from(scrollerInner.children);
+  
+  scrollerContent.forEach((item) => {
+    const duplicatedItem = item.cloneNode(true);
+    duplicatedItem.setAttribute("aria-hidden", true);
+    scrollerInner.appendChild(duplicatedItem);
+  });
+}
