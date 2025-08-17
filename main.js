@@ -1,5 +1,5 @@
 // imports
-import * as THREE from "https://unpkg.com/three@0.150.0/build/three.module.js";
+// import * as THREE from "https://unpkg.com/three@0.150.0/build/three.module.js";
 import { NeatGradient } from "https://esm.sh/@firecms/neat";
 
 // Gradient config
@@ -37,6 +37,7 @@ const gradientElement = document.getElementById("gradient");
 
 const neat = new NeatGradient({
   ref: gradientElement,
+
   ...config,
 });
 

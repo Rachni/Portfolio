@@ -1,12 +1,16 @@
 /* General styles */
+html,
 body {
-  margin: auto;
-  font-family: Arial, sans-serif;
-  color: white;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 /*=== Main container styles ===*/
 .main-container {
+  color: white;
   margin: auto;
   max-width: 1200px;
   padding-left: 50px;
@@ -21,10 +25,23 @@ body {
 /*=== Main container styles end === */
 /*=== Hero section styles ===*/
 .hero {
-  margin-top: 60px;
-  margin-bottom: 60px;
+  position: relative;
+  width: 100%;
+  padding-top: 100px;
+  margin-bottom: 100px;
+}
+.hero-background {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 .hero-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -100,12 +117,34 @@ body {
 }
 /*=== Footer styles ===*/
 footer {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
   color: white;
-  padding: 20px 40px;
+  overflow: hidden;
+}
+.footer-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+  margin-top: 300px;
 }
 /*=== Footer styles end ===*/
 /* === Gradient Styles === */
 #gradient {
+  background-color: #631e50; /* Fallback color to avoid white flashes*/
   position: fixed;
   top: 0;
   left: 0;
@@ -129,6 +168,7 @@ footer {
   align-items: center;
 }
 .social-btn {
+  border: 2px solid #ff9250;
   cursor: pointer;
   height: 50px;
   width: 50px;
@@ -296,6 +336,7 @@ p {
   text-shadow: -1px -1px 0 #ff9250, 1px -1px 0 #ff9250, -1px 1px 0 #ff9250,
     1px 1px 0 #ff9250;
 }
+/* === font styles end === */
 /* === Scroller styles === */
 .technologies-scroller-container {
   max-width: 1200px;
@@ -345,7 +386,36 @@ p {
   --_animation-duration: 60s;
 }
 /* === Scroller styles end === */
-/* === font styles end === */
+/* === Scrollbar styles === */
+
+body {
+  --sb-track-color: #6a1b9a;
+  --sb-thumb-color: #e7008a;
+  --sb-size: 14px;
+}
+
+body::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 13px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 13px;
+  border: 2px solid #ff7954;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+/* === Scrollbar styles end === */
+
 @media (max-width: 1024px) {
   .hero-content {
     flex-direction: column;
