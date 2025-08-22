@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,100;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #0a0a0a;
+        color: #fff;
+        line-height: 1.6;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        background: linear-gradient(45deg, #6ee7b7, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #9ca3af;
+        margin-bottom: 30px;
+      }
+
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+
+      .project-card {
+        background: rgba(30, 30, 40, 0.8);
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        height: 350px;
+        position: relative;
+      }
+
+      .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      }
+
+      .project-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease, filter 0.5s ease;
+        filter: blur(4px) brightness(0.7);
+      }
+
+      .project-card:hover .project-image {
+        transform: scale(1.05);
+        filter: blur(0) brightness(0.5);
+      }
+
+      .project-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+      }
+
+      .project-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #fff;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .project-description {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 15px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, opacity 0.4s ease,
+          margin-bottom 0.4s ease;
+      }
+
+      .project-technologies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, opacity 0.4s ease,
+          margin-bottom 0.4s ease;
+        justify-content: center;
+      }
+
+      .technology-tag {
+        background: rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.9);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .project-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .project-status {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        z-index: 2;
+      }
+
+      .project-card:hover .project-description,
+      .project-card:hover .project-technologies {
+        max-height: 100px;
+        opacity: 1;
+        margin-bottom: 15px;
+      }
+
+      @media (max-width: 900px) {
+        .portfolio-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .project-card {
+          height: 320px;
+        }
+
+        .project-title {
+          font-size: 2.2rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        .subtitle {
+          font-size: 1rem;
+        }
+
+        .project-card {
+          height: 280px;
+        }
+
+        .project-title {
+          font-size: 1.8rem;
+        }
+
+        .project-links {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .project-link {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Mi Portfolio</h1>
+        <p class="subtitle">Desarrollador Frontend & Diseñador UI/UX</p>
+      </header>
+
+      <div class="portfolio-grid">
+        <!-- Proyecto 1 -->
+        <div class="project-card">
+          <span class="project-status">Completado</span>
+          <img
+            src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            alt="BlissCamp"
+            class="project-image"
+          />
+          <div class="project-content">
+            <h3 class="project-title">BlissCamp</h3>
+            <p class="project-description">
+              Una plataforma completa para campistas y viajeros que facilita la
+              búsqueda y reserva de experiencias al aire libre.
+            </p>
+            <div class="project-technologies">
+              <span class="technology-tag">HTML</span>
+              <span class="technology-tag">CSS</span>
+              <span class="technology-tag">JavaScript</span>
+              <span class="technology-tag">React</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"
+                ><i class="fas fa-external-link-alt"></i> Live Demo</a
+              >
+              <a href="#" class="project-link"
+                ><i class="fab fa-github"></i> GitHub</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 2 -->
+        <div class="project-card">
+          <span class="project-status">Completado</span>
+          <img
+            src="https://images.unsplash.com/photo-1536148935331-408321065b18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            alt="lil' me"
+            class="project-image"
+          />
+          <div class="project-content">
+            <h3 class="project-title">lil' me</h3>
+            <p class="project-description">
+              Un personaje animado creado con CSS puro que responde a
+              interacciones del usuario con movimientos fluidos y expresivos.
+            </p>
+            <div class="project-technologies">
+              <span class="technology-tag">HTML</span>
+              <span class="technology-tag">CSS</span>
+              <span class="technology-tag">JavaScript</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"
+                ><i class="fas fa-external-link-alt"></i> Live Demo</a
+              >
+              <a href="#" class="project-link"
+                ><i class="fab fa-github"></i> GitHub</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 3 -->
+        <div class="project-card">
+          <span class="project-status">Completado</span>
+          <img
+            src="img/gameshelfprofile.png"
+            alt="Project1"
+            class="project-image"
+          />
+          <div class="project-content">
+            <h3 class="project-title">Cursor</h3>
+            <p class="project-description">
+              Un sistema de cursor personalizado que mejora la experiencia de
+              usuario en sitios web con efectos visuales atractivos.
+            </p>
+            <div class="project-technologies">
+              <span class="technology-tag">JavaScript</span>
+              <span class="technology-tag">CSS</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"
+                ><i class="fas fa-external-link-alt"></i> Live Demo</a
+              >
+              <a href="#" class="project-link"
+                ><i class="fab fa-github"></i> GitHub</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 4 -->
+        <div class="project-card">
+          <span class="project-status">Completado</span>
+          <img
+            src="img/gameshelfindex.png""
+            alt="Proyecto2"
+            class="project-image"
+          />
+          <div class="project-content">
+            <h3 class="project-title">Background</h3>
+            <p class="project-description">
+              Una herramienta que genera fondos aleatorios para creadores de
+              contenido con patrones y colores únicos.
+            </p>
+            <div class="project-technologies">
+              <span class="technology-tag">JavaScript</span>
+              <span class="technology-tag">HTML5</span>
+              <span class="technology-tag">Canvas</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"
+                ><i class="fas fa-external-link-alt"></i> Live Demo</a
+              >
+              <a href="#" class="project-link"
+                ><i class="fab fa-github"></i> GitHub</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 5 -->
+        <div class="project-card">
+          <span class="project-status">Completado</span>
+          <img
+            src="/img/gameshelf1.png"
+            alt="GameShelf"
+            class="project-image"
+          />
+          <div class="project-content">
+            <h3 class="project-title">CSS Filters</h3>
+            <p class="project-description">
+              Una galería interactiva que muestra diferentes efectos de filtros
+              CSS aplicados a imágenes con ejemplos prácticos.
+            </p>
+            <div class="project-technologies">
+              <span class="technology-tag">CSS</span>
+              <span class="technology-tag">HTML</span>
+              <span class="technology-tag">JavaScript</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"
+                ><i class="fas fa-external-link-alt"></i> Live Demo</a
+              >
+              <a href="#" class="project-link"
+                ><i class="fab fa-github"></i> GitHub</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Proyecto 6 -->
+        <div class="project-card">
+          <span class="project-status">En desarrollo</span>
+          <img
+            src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            alt="HostelEase"
+            class="project-image"
+          />
+          <div class="project-content">
+            <h3 class="project-title">HostelEase</h3>
+            <p class="project-description">
+              Aplicación de gestión para hosteles que facilita la administración
+              y comunicación entre huéspedes y personal.
+            </p>
+            <div class="project-technologies">
+              <span class="technology-tag">Flutter</span>
+              <span class="technology-tag">Dart</span>
+              <span class="technology-tag">Firebase</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="project-link"> Live Demo</a>
+              <a href="#" class="project-link"> GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

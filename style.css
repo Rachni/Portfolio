@@ -1,4 +1,13 @@
 /* General styles */
+:root {
+  --slide-width: min(40vw, 600px);
+  --slide-height: calc(var(--slide-width) / (9 / 16));
+  --slide-aspect: 16 / 9;
+  --slide-transition-duration: 800ms;
+  --slide-transition-easing: ease;
+  --font-archivo: "Archivo", sans-serif;
+  --font-clash-display: "Clash Display", sans-serif;
+}
 
 html,
 body {
@@ -8,21 +17,25 @@ body {
   height: 100%;
   overflow-x: hidden;
 }
-
+body::selection {
+  color: #ff7954;
+  background-color: #6a1b9a;
+}
 /*=== Main container styles ===*/
 .main-container {
   color: white;
   margin: auto;
   max-width: 1200px;
-  padding-left: 50px;
-  padding-right: 50px;
+}
+section {
   background: rgba(0, 0, 0, 0.15);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5.9px);
   -webkit-backdrop-filter: blur(5.9px);
   border: 1px solid rgba(255, 0, 187, 0.64);
-  
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 /*=== Main container styles end === */
 /*=== Hero section styles ===*/
@@ -64,46 +77,148 @@ body {
 /*=== Hero section styles end === */
 /*=== Headings styles === */
 .heading {
-  font-family: "Edu SA Hand", sans-serif;
+  font-family: "Fascinate", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: white;
 }
 /*=== Headings styles end === */
 /*=== About me section styles ===*/
 .aboutme-section {
-  padding: 20px;
+  padding: 5px 40px;
 }
 /*=== About me section styles end ===*/
+
 /*=== Portfolio section styles ===*/
 .portfolio-section {
   padding: 20px;
 }
-.portfolio-item {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  border: 2px solid black;
-  padding: 20px;
-  margin: 20px 0;
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
 }
-.portfolio-item-img {
-  max-width: 50%;
-}
-.portfolio-item-img img {
-  max-width: 100%;
+.project-card {
   border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5 15px rgba(0, 5px, 15px, 0.3);
+  height: 300px;
+  position: relative;
 }
-.portfolio-item-links {
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.portfolio-grid-project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.5s ease;
+  filter: blur(5px) brightness(0.7);
+}
+.project-card:hover .portfolio-grid-project-image {
+  transform: scale(1.05);
+  filter: blur(0) brightness(0.5);
+}
+.project-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}
+.project-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.project-description {
+  font-size: 0.95rem;
+  text-align: center;
+  color: white;
+  margin-bottom: 15px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin-botom 0.4s ease;
+}
+.project-technologies {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin-botom 0.4s ease;
+  justify-content: center;
+}
+.technology-tag {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+.project-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.project-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+.project-link i {
+  margin-right: 6px;
+  font-size: 0.9rem;
+}
+.project-status {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  z-index: 2;
+}
+
+.project-card:hover .project-description,
+.project-card:hover .project-technologies {
+  max-height: 100px;
+  opacity: 1;
+  margin-bottom: 15px;
 }
 
 /*=== Portfolio section styles end ===*/
+
 /*=== Technologies section styles ===*/
 .technologies-section {
   padding: 20px;
-}
-.technologies-section .heading {
-  color: black;
 }
 .technologies-scroller {
   display: flex;
@@ -446,15 +561,6 @@ body::-webkit-scrollbar-thumb {
   }
 }
 /* ========== FEATURED PROJECTS SLIDER =============== */
-:root {
-  --slide-width: min(40vw, 600px);
-  --slide-height: calc(var(--slide-width) / (9 / 16));
-  --slide-aspect: 16 / 9;
-  --slide-transition-duration: 800ms;
-  --slide-transition-easing: ease;
-  --font-archivo: "Archivo", sans-serif;
-  --font-clash-display: "Clash Display", sans-serif;
-}
 
 button {
   border: none;
@@ -470,14 +576,15 @@ button:focus {
 /* -------------------- SLIDER -------------------- */
 .featured-projects {
   position: relative;
-  overflow: visible;
+  overflow: hidden;
 }
 .featured-projects-slider {
   width: 1200px;
   height: 500px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  position: relative;
+  /* position: relative; */
 }
 
 .slider--btn {
@@ -501,7 +608,7 @@ button:focus {
 }
 
 .featured-projects-slider-wrapper {
-  width: 100%;
+  width: 1200px;
   height: 100%;
   display: grid;
   place-items: center;
@@ -527,7 +634,7 @@ button:focus {
   grid-area: 1 / -1;
 }
 
-/* -------------------- PROJECTS -------------------- */
+/* -------------------- FEATURED PROJECTS -------------------- */
 .single-project {
   --slide-tx: 0px;
   --slide-ty: 0vh;
@@ -792,3 +899,23 @@ button:focus {
   color: white;
 }
 /* ========== FEATURED PROJECTS SLIDER END =============== */
+
+@media (max-width: 600px) {
+  .project-card {
+    height: 280px;
+  }
+
+  .project-title {
+    font-size: 1.8rem;
+  }
+
+  .project-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .project-link {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Edu+SA+Hand:wght@400..700&family=Jost:ital,wght@0,100..900;1,100..900&family=Titan+One&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fascinate&family=Jost:ital,wght@0,100..900;1,100..900&family=Titan+One&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -16,6 +16,7 @@
   </head>
   <body>
     <canvas id="gradient"></canvas>
+
     <div class="hero">
       <div class="hero-background">
         <svg
@@ -90,7 +91,7 @@
     <!-- Content section -->
     <div class="main-container">
       <!-- About me section -->
-      <div class="aboutme-section">
+      <section class="aboutme-section">
         <h1 class="heading">About me</h1>
         <div class="aboutme-content">
           <p>
@@ -104,304 +105,301 @@
             that curiosity into programming.
           </p>
         </div>
-      </div>
-      <div class="featured-projects-slider">
-        <!-- Botón anterior -->
-        <button class="slider--btn slider--btn__prev">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-        </button>
+      </section>
+      <!-- featured projects section -->
+      <section class="featured-projects-section">
+        <div class="featured-projects-slider">
+          <!-- Botón anterior -->
+          <button class="slider--btn slider--btn__prev">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
 
-        <div class="featured-projects-slider-wrapper">
-          <!-- Contenedor de proyectos -->
-          <div class="featured-projects">
-            <!-- Proyecto 1 (actual) -->
-            <div class="single-project" data-current>
-              <div class="single-project-inner">
-                <div class="single-project-image-wrapper">
-                  <img
-                    class="project-image"
-                    src="img/gameshelfindex.png"
-                    alt="GameShelf"
-                  />
+          <div class="featured-projects-slider-wrapper">
+            <!-- Contenedor de proyectos -->
+            <div class="featured-projects">
+              <!-- Proyecto 1 (actual) -->
+              <div class="single-project" data-current>
+                <div class="single-project-inner">
+                  <div class="single-project-image-wrapper">
+                    <img
+                      class="project-image"
+                      src="img/gameshelfindex.png"
+                      alt="GameShelf"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="single-project-bg"
-              style="
-                --bg: url(https://devloop01.github.io/voyage-slider/images/scotland-mountains.jpg);
-                --dir: 0;
-              "
-              data-current
-            ></div>
+              <div
+                class="single-project-bg"
+                style="
+                  --bg: url(https://devloop01.github.io/voyage-slider/images/scotland-mountains.jpg);
+                  --dir: 0;
+                "
+                data-current
+              ></div>
 
-            <!-- Proyecto 2 (siguiente) -->
-            <div class="single-project" data-next>
-              <div class="single-project-inner">
-                <div class="single-project-image-wrapper">
-                  <img class="project-image" src="img/gameshelf1.png""
-                  alt="DNDDB" />
+              <!-- Proyecto 2 (siguiente) -->
+              <div class="single-project" data-next>
+                <div class="single-project-inner">
+                  <div class="single-project-image-wrapper">
+                    <img class="project-image" src="img/gameshelf1.png""
+                    alt="DNDDB" />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="single-project-bg"
-              style="
-                --bg: url(https://devloop01.github.io/voyage-slider/images/machu-pichu.jpg);
-                --dir: 1;
-              "
-              data-next
-            ></div>
+              <div
+                class="single-project-bg"
+                style="
+                  --bg: url(https://devloop01.github.io/voyage-slider/images/machu-pichu.jpg);
+                  --dir: 1;
+                "
+                data-next
+              ></div>
 
-            <!-- Proyecto 3 (anterior) -->
-            <div class="single-project" data-previous>
-              <div class="single-project-inner">
-                <div class="single-project-image-wrapper">
-                  <img
-                    class="project-image"
-                    src="img/gameshelfprofile.png"
-                    alt="MasqueraDB"
-                  />
+              <!-- Proyecto 3 (anterior) -->
+              <div class="single-project" data-previous>
+                <div class="single-project-inner">
+                  <div class="single-project-image-wrapper">
+                    <img
+                      class="project-image"
+                      src="img/gameshelfprofile.png"
+                      alt="MasqueraDB"
+                    />
+                  </div>
                 </div>
               </div>
+              <div
+                class="single-project-bg"
+                style="
+                  --bg: url(https://devloop01.github.io/voyage-slider/images/chamonix.jpg);
+                  --dir: -1;
+                "
+                data-previous
+              ></div>
             </div>
-            <div
-              class="single-project-bg"
-              style="
-                --bg: url(https://devloop01.github.io/voyage-slider/images/chamonix.jpg);
-                --dir: -1;
-              "
-              data-previous
-            ></div>
-          </div>
 
-          <!-- Contenedor de información -->
-          <div class="project-info-container">
-            <!-- Información Proyecto 1 -->
-            <div class="project-info" data-current>
-              <div class="project-info__inner">
-                <div class="project-info--text_wrapper">
-                  <div data-title class="project-info--text">
-                    <span>GameShelf</span>
-                  </div>
-                  <div data-subtitle class="project-info--text">
-                    <span>Rate and discover video games</span>
-                  </div>
-                  <div data-description class="project-info--text">
-                    <span
-                      >Rate games, create lists, and discover new titles through
-                      API calls.</span
-                    >
-                  </div>
-                  <div class="project-info--text">
-                    <div class="project-tags-container">
-                      <span class="project-tag" technology="PHP">PHP</span>
-                      <span class="project-tag" technology="MySQL">MySQL</span>
-                      <span class="project-tag" technology="React">React</span>
-                      <span class="project-tag" technology="TailwindCSS"
-                        >TailwindCSS</span
-                      >
-                      <span class="project-tag" technology="HTML">HTML</span>
-                      <span class="project-tag" technology="CSS">CSS</span>
+            <!-- Contenedor de información -->
+            <div class="project-info-container">
+              <!-- Información Proyecto 1 -->
+              <div class="project-info" data-current>
+                <div class="project-info__inner">
+                  <div class="project-info--text_wrapper">
+                    <div data-title class="project-info--text">
+                      <span>GameShelf</span>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Información Proyecto 2 -->
-            <div class="project-info" data-next>
-              <div class="project-info__inner">
-                <div class="project-info--text_wrapper">
-                  <div data-title class="project-info--text">
-                    <span>D&D DB</span>
-                  </div>
-                  <div data-subtitle class="project-info--text">
-                    <span>Character sheets management</span>
-                  </div>
-                  <div data-description class="project-info--text">
-                    <span
-                      >PHP-based web application for managing Dungeons & Dragons
-                      campaigns and characters.</span
-                    >
-                  </div>
-                  <div class="project-info--text">
-                    <div class="project-tags-container">
-                      <span class="project-tag" technology="HTML">HTML</span>
-                      <span class="project-tag" technology="CSS">CSS</span>
-                      <span class="project-tag" technology="PHP">PHP</span>
-                      <span class="project-tag" technology="MySQL">MySQL</span>
-                      <span class="project-tag" technology="JavaScript"
-                        >JavaScript</span
+                    <div data-subtitle class="project-info--text">
+                      <span>Rate and discover video games</span>
+                    </div>
+                    <div data-description class="project-info--text">
+                      <span
+                        >Rate games, create lists, and discover new titles
+                        through API calls.</span
                       >
                     </div>
+                    <div class="project-info--text">
+                      <div class="project-tags-container">
+                        <span class="project-tag" technology="PHP">PHP</span>
+                        <span class="project-tag" technology="MySQL"
+                          >MySQL</span
+                        >
+                        <span class="project-tag" technology="React"
+                          >React</span
+                        >
+                        <span class="project-tag" technology="TailwindCSS"
+                          >TailwindCSS</span
+                        >
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Información Proyecto 3 -->
-            <div class="project-info" data-previous>
-              <div class="project-info__inner">
-                <div class="project-info--text_wrapper">
-                  <div data-title class="project-info--text">
-                    <span>MasqueraDB</span>
+              <!-- Información Proyecto 2 -->
+              <div class="project-info" data-next>
+                <div class="project-info__inner">
+                  <div class="project-info--text_wrapper">
+                    <div data-title class="project-info--text">
+                      <span>D&D DB</span>
+                    </div>
+                    <div data-subtitle class="project-info--text">
+                      <span>Character sheets management</span>
+                    </div>
+                    <div data-description class="project-info--text">
+                      <span
+                        >PHP-based web application for managing Dungeons &
+                        Dragons campaigns and characters.</span
+                      >
+                    </div>
+                    <div class="project-info--text">
+                      <div class="project-tags-container">
+                        <span class="project-tag" technology="HTML">HTML</span>
+                        <span class="project-tag" technology="CSS">CSS</span>
+                        <span class="project-tag" technology="PHP">PHP</span>
+                        <span class="project-tag" technology="MySQL"
+                          >MySQL</span
+                        >
+                        <span class="project-tag" technology="JavaScript"
+                          >JavaScript</span
+                        >
+                      </div>
+                    </div>
                   </div>
-                  <div data-subtitle class="project-info--text">
-                    <span>Database management</span>
-                  </div>
-                  <div data-description class="project-info--text">
-                    <span
-                      >Java backend for managing characters, chronicles and
-                      users in Vampire:TM.</span
-                    >
-                  </div>
-                  <div class="project-info--text">
-                    <div class="project-tags-container">
-                      <span class="project-tag" technology="JAVA">JAVA</span>
-                      <span class="project-tag" technology="MySQL">MySQL</span>
+                </div>
+              </div>
+
+              <!-- Información Proyecto 3 -->
+              <div class="project-info" data-previous>
+                <div class="project-info__inner">
+                  <div class="project-info--text_wrapper">
+                    <div data-title class="project-info--text">
+                      <span>MasqueraDB</span>
+                    </div>
+                    <div data-subtitle class="project-info--text">
+                      <span>Database management</span>
+                    </div>
+                    <div data-description class="project-info--text">
+                      <span
+                        >Java backend for managing characters, chronicles and
+                        users in Vampire:TM.</span
+                      >
+                    </div>
+                    <div class="project-info--text">
+                      <div class="project-tags-container">
+                        <span class="project-tag" technology="JAVA">JAVA</span>
+                        <span class="project-tag" technology="MySQL"
+                          >MySQL</span
+                        >
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- Botón siguiente -->
+          <button class="slider--btn slider--btn__next">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
         </div>
+      </section>
 
-        <!-- Botón siguiente -->
-        <button class="slider--btn slider--btn__next">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </button>
-      </div>
       <!-- Portfolio -->
-      <div class="portfolio-section">
+      <section class="portfolio-section">
         <h1 class="heading">Portfolio</h1>
-        <div class="portfolio-item">
-          <div class="portfolio-item-img">
+        <div class="portfolio-grid">
+          <!-- Project 1 -->
+          <div class="project-card">
+            <span class="project-status">STATUS</span>
             <img
-              src="https://camo.githubusercontent.com/16ef3eac8567d4217ac739f1e5bc82b5fa96430606b5ed03998f822b5abea06c/68747470733a2f2f692e696d6775722e636f6d2f744854783763622e676966"
-              alt="gameshelf_img"
+              src="img/gameshelfprofile.png"
+              alt=""
+              class="portfolio-grid-project-image"
             />
-          </div>
-          <div class="portfolio-item-content">
-            <h3>GameShelf</h3>
-
-            <div class="portfolio-item-description">
-              <p>
-                GameShelf is a web application designed for video game
-                enthusiasts to track their gaming progress, create personalized
-                lists, write reviews, and discover new games. Inspired by
-                platforms like Letterboxd and Goodreads, GameShelf offers a
-                user-friendly interface with social features, game discovery,
-                and personalized statistics.
+            <div class="project-content">
+              <h3 class="project-title">TITULO</h3>
+              <p class="project-description">
+                descripcion descripcion descripcion descripcion descripcion
+                descripcion descripcion descripcion descripcion descripcion
+                descripcion descripcion
               </p>
-            </div>
-            <div class="portfolio-item-links">
-              <div class="portfolio-item-links-github">
-                <a
-                  href="https://github.com/Rachni/GameShelf-Video-Game-Rating-App"
-                  >GitHub</a
-                >
+              <div class="project-technologies">
+                <span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span>
               </div>
-              <div class="portfolio-item-links-live">
-                <a href="#">Live</a>
+              <div class="project-links">
+                <a href="#" class="project-link">Demo</a>
+                <a href="#" class="project-link">Code</a>
+              </div>
+            </div>
+          </div>
+          <!-- Project 2 -->
+          <div class="project-card">
+            <span class="project-status">STATUS</span>
+            <img
+              src="img/gameshelfindex.png"
+              alt=""
+              class="portfolio-grid-project-image"
+            />
+            <div class="project-content">
+              <h3 class="project-title">TITULO</h3>
+              <p class="project-description">
+                descripcion descripcion descripcion descripcion descripcion
+                descripcion descripcion descripcion descripcion descripcion
+                descripcion descripcion
+              </p>
+              <div class="project-technologies">
+                <span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link">Demo</a>
+                <a href="#" class="project-link">Code</a>
+              </div>
+            </div>
+          </div>
+          <!-- Project 3 -->
+          <div class="project-card">
+            <span class="project-status">STATUS</span>
+            <img
+              src="img/gameshelf1.png"
+              alt=""
+              class="portfolio-grid-project-image"
+            />
+            <div class="project-content">
+              <h3 class="project-title">TITULO</h3>
+              <p class="project-description">
+                descripcion descripcion descripcion descripcion descripcion
+                descripcion descripcion descripcion descripcion descripcion
+                descripcion descripcion
+              </p>
+              <div class="project-technologies">
+                <span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span
+                ><span class="technology-tag">etiqueta </span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link">Demo</a>
+                <a href="#" class="project-link">Code</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="portfolio-item">
-          <div class="portfolio-item-img">
-            <img
-              src="https://camo.githubusercontent.com/16ef3eac8567d4217ac739f1e5bc82b5fa96430606b5ed03998f822b5abea06c/68747470733a2f2f692e696d6775722e636f6d2f744854783763622e676966"
-              alt="gameshelf_img"
-            />
-          </div>
-          <div class="portfolio-item-content">
-            <h3>GameShelf</h3>
-
-            <div class="portfolio-item-description">
-              <p>
-                GameShelf is a web application designed for video game
-                enthusiasts to track their gaming progress, create personalized
-                lists, write reviews, and discover new games. Inspired by
-                platforms like Letterboxd and Goodreads, GameShelf offers a
-                user-friendly interface with social features, game discovery,
-                and personalized statistics.
-              </p>
-            </div>
-            <div class="portfolio-item-links">
-              <div class="portfolio-item-links-github">
-                <a
-                  href="https://github.com/Rachni/GameShelf-Video-Game-Rating-App"
-                  >GitHub</a
-                >
-              </div>
-              <div class="portfolio-item-links-live">
-                <a href="#">Live</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="portfolio-item">
-          <div class="portfolio-item-img">
-            <img
-              src="https://camo.githubusercontent.com/16ef3eac8567d4217ac739f1e5bc82b5fa96430606b5ed03998f822b5abea06c/68747470733a2f2f692e696d6775722e636f6d2f744854783763622e676966"
-              alt="gameshelf_img"
-            />
-          </div>
-          <div class="portfolio-item-content">
-            <h3>GameShelf</h3>
-
-            <div class="portfolio-item-description">
-              <p>
-                GameShelf is a web application designed for video game
-                enthusiasts to track their gaming progress, create personalized
-                lists, write reviews, and discover new games. Inspired by
-                platforms like Letterboxd and Goodreads, GameShelf offers a
-                user-friendly interface with social features, game discovery,
-                and personalized statistics.
-              </p>
-            </div>
-            <div class="portfolio-item-links">
-              <div class="portfolio-item-links-github">
-                <a
-                  href="https://github.com/Rachni/GameShelf-Video-Game-Rating-App"
-                  >GitHub</a
-                >
-              </div>
-              <div class="portfolio-item-links-live">
-                <a href="#">Live</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
       <!-- Technologies section -->
-      <div class="technologies-section">
+      <section class="technologies-section">
         <h1 class="heading">Technologies</h1>
         <div class="technologies-scroller-container">
           <ul class="technologies-scroller">
@@ -600,7 +598,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </section>
     </div>
     <!-- Footer -->
     <footer>
