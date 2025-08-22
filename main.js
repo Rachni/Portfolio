@@ -44,7 +44,7 @@ const neat = new NeatGradient({
 // cleaning if page reloads
 window.addEventListener("beforeunload", () => neat.destroy());
 
-// ===== SCROLLER ===== //
+// ================ SCROLLER ======================== //
 const scroller = document.querySelector(".technologies-scroller-container");
 
 if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -63,311 +63,287 @@ function addAnimation() {
     scrollerInner.appendChild(duplicatedItem);
   });
 }
-        // ================== SLIDER ====================
-        // Primero intenta cargar imagesLoaded de forma segura
-        let imagesLoaded;
-        try {
-            imagesLoaded = (await import("https://esm.sh/imagesloaded")).default;
-        } catch (error) {
-            console.error("Error loading imagesLoaded:", error);
-            // Fallback básico si imagesLoaded no carga
-            imagesLoaded = function (el, callback) {
-                if (el.complete) {
-                    callback({ isComplete: true });
-                } else {
-                    el.addEventListener("load", () => callback({ isComplete: true }));
-                    el.addEventListener("error", () => callback({ isComplete: true }));
-                }
-            };
-        }
+// ================== TODO: REVISE SLIDER WITH 3D EFFECT ======================== //
 
-        // -------------------------------------------------
-        // ------------------ Utilidades -------------------
-        // -------------------------------------------------
+// basic utils
+const wrap = (n, max) => (n + max) % max;
+const lerp = (a, b, t) => a + (b - a) * t;
 
-        // Utilidades matemáticas
-        const wrap = (n, max) => (n + max) % max;
-        const lerp = (a, b, t) => a + (b - a) * t;
+// 2d vectors
+class Vec2 {
+  constructor(x = 0, y = 0) {
+    this.x = x;
+    this.y = y;
+  }
 
-        // Utilidades DOM
-        const isHTMLElement = (el) => el instanceof HTMLElement;
+  set(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
-        // Generador de IDs único
-        const genId = (() => {
-            let count = 0;
-            return () => (count++).toString();
-        })();
+  lerp(v, t) {
+    this.x = lerp(this.x, v.x, t);
+    this.y = lerp(this.y, v.y, t);
+  }
+}
 
-        // Sistema de animación por frames
-        class Raf {
-            constructor() {
-                this.rafId = 0;
-                this.raf = this.raf.bind(this);
-                this.callbacks = [];
-                this.start();
-            }
+// Animation frame manager
+class Raf {
+  constructor() {
+    this.callbacks = [];
+    this.rafId = null;
+    this.isRunning = false;
+    this.raf = this.raf.bind(this);
+  }
 
-            start() {
-                this.raf();
-            }
+  start() {
+    if (!this.isRunning) {
+      this.isRunning = true;
+      this.raf();
+    }
+  }
 
-            stop() {
-                cancelAnimationFrame(this.rafId);
-            }
+  stop() {
+    if (this.isRunning) {
+      cancelAnimationFrame(this.rafId);
+      this.isRunning = false;
+    }
+  }
 
-            raf() {
-                this.callbacks.forEach(({ callback, id }) => callback({ id }));
-                this.rafId = requestAnimationFrame(this.raf);
-            }
+  raf() {
+    this.callbacks.forEach((callback) => callback());
+    this.rafId = requestAnimationFrame(this.raf);
+  }
 
-            add(callback, id) {
-                this.callbacks.push({ callback, id: id || genId() });
-            }
+  add(callback) {
+    this.callbacks.push(callback);
+  }
 
-            remove(id) {
-                this.callbacks = this.callbacks.filter((cb) => cb.id !== id);
-            }
-        }
+  remove(callback) {
+    this.callbacks = this.callbacks.filter((cb) => cb !== callback);
+  }
+}
 
-        // Clase para manejar vectores 2D
-        class Vec2 {
-            constructor(x = 0, y = 0) {
-                this.x = x;
-                this.y = y;
-            }
+const raf = new Raf();
+raf.start();
 
-            set(x, y) {
-                this.x = x;
-                this.y = y;
-            }
+// Tilt effect
+function tilt(node, options = {}) {
+  const trigger = options.trigger || node;
+  const target = Array.isArray(options.target)
+    ? options.target
+    : [options.target || node];
 
-            lerp(v, t) {
-                this.x = lerp(this.x, v.x, t);
-                this.y = lerp(this.y, v.y, t);
-            }
-        }
+  let lerpAmount = 0.06;
+  const rotDeg = { current: new Vec2(), target: new Vec2() };
+  const bgPos = { current: new Vec2(), target: new Vec2() };
 
-        const vec2 = (x = 0, y = 0) => new Vec2(x, y);
+  const updateTilt = () => {
+    rotDeg.current.lerp(rotDeg.target, lerpAmount);
+    bgPos.current.lerp(bgPos.target, lerpAmount);
 
-        // Efecto de inclinación al pasar el mouse
-        function tilt(node, options) {
-            let { trigger, target } = resolveOptions(node, options);
-            let lerpAmount = 0.06;
-            const rotDeg = { current: vec2(), target: vec2() };
-            const bgPos = { current: vec2(), target: vec2() };
-            let rafId;
+    for (const el of target) {
+      el.style.setProperty("--rotX", `${rotDeg.current.y.toFixed(2)}deg`);
+      el.style.setProperty("--rotY", `${rotDeg.current.x.toFixed(2)}deg`);
+      el.style.setProperty("--bgPosX", `${bgPos.current.x.toFixed(2)}%`);
+      el.style.setProperty("--bgPosY", `${bgPos.current.y.toFixed(2)}%`);
+    }
+  };
 
-            const update = (newOptions) => {
-                destroy();
-                ({ trigger, target } = resolveOptions(node, newOptions));
-                init();
-            };
+  raf.add(updateTilt);
 
-            function ticker({ id }) {
-                rafId = id;
-                rotDeg.current.lerp(rotDeg.target, lerpAmount);
-                bgPos.current.lerp(bgPos.target, lerpAmount);
+  const onMouseMove = (e) => {
+    const rect = trigger.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
 
-                for (const el of target) {
-                    el.style.setProperty("--rotX", rotDeg.current.y.toFixed(2) + "deg");
-                    el.style.setProperty("--rotY", rotDeg.current.x.toFixed(2) + "deg");
-                    el.style.setProperty("--bgPosX", bgPos.current.x.toFixed(2) + "%");
-                    el.style.setProperty("--bgPosY", bgPos.current.y.toFixed(2) + "%");
-                }
-            }
+    lerpAmount = 0.1;
 
-            const onMouseMove = ({ offsetX, offsetY }) => {
-                lerpAmount = 0.1;
-                for (const el of target) {
-                    const ox = (offsetX - el.clientWidth * 0.5) / (Math.PI * 3);
-                    const oy = -(offsetY - el.clientHeight * 0.5) / (Math.PI * 4);
-                    rotDeg.target.set(ox, oy);
-                    bgPos.target.set(-ox * 0.3, oy * 0.3);
-                }
-            };
+    for (const el of target) {
+      const ox = (offsetX - el.clientWidth * 0.5) / (Math.PI * 7);
+      const oy = -(offsetY - el.clientHeight * 0.5) / (Math.PI * 10);
+      rotDeg.target.set(ox, oy);
+      bgPos.target.set(-ox * 0.4, oy * 0.4);
+    }
+  };
 
-            const onMouseLeave = () => {
-                lerpAmount = 0.06;
-                rotDeg.target.set(0, 0);
-                bgPos.target.set(0, 0);
-            };
+  const onMouseLeave = () => {
+    lerpAmount = 0.06;
+    rotDeg.target.set(0, 0);
+    bgPos.target.set(0, 0);
+  };
 
-            const addListeners = () => {
-                trigger.addEventListener("mousemove", onMouseMove);
-                trigger.addEventListener("mouseleave", onMouseLeave);
-            };
+  /////////////////
 
-            const removeListeners = () => {
-                trigger.removeEventListener("mousemove", onMouseMove);
-                trigger.removeEventListener("mouseleave", onMouseLeave);
-            };
+  trigger.addEventListener("mousemove", onMouseMove);
+  trigger.addEventListener("mouseleave", onMouseLeave);
 
-            const init = () => {
-                addListeners();
-                raf.add(ticker);
-            };
+  //////////////////
+  // Cleanup function
+  return () => {
+    raf.remove(updateTilt);
+    trigger.removeEventListener("mousemove", onMouseMove);
+    trigger.removeEventListener("mouseleave", onMouseLeave);
+  };
+}
 
-            const destroy = () => {
-                removeListeners();
-                raf.remove(rafId);
-            };
+// Función para actualizar z-index de manera consistente
+function updateZIndex(allProjects, currentIndex) {
+  allProjects.forEach((project, index) => {
+    // Reset first
+    project.style.zIndex = "";
 
-            init();
-            return { destroy, update };
-        }
+    // Apply z-index based on distance from current
+    if (index === currentIndex) {
+      project.style.zIndex = "30";
+    } else {
+      const distanceForward = wrap(index - currentIndex, allProjects.length);
+      const distanceBackward = wrap(currentIndex - index, allProjects.length);
+      const minDistance = Math.min(distanceForward, distanceBackward);
 
-        function resolveOptions(node, options) {
-            return {
-                trigger: options?.trigger ?? node,
-                target: options?.target
-                    ? Array.isArray(options.target)
-                        ? options.target
-                        : [options.target]
-                    : [node],
-            };
-        }
+      if (minDistance === 1) {
+        project.style.zIndex = "25";
+      } else if (minDistance === 2) {
+        project.style.zIndex = "20";
+      } else {
+        project.style.zIndex = "10";
+      }
+    }
+  });
+}
 
-        // -----------------------------------------------------
-        // Instancia global de RAF
-        const raf = new Raf();
+// function to change slides
+function changeSlide(direction) {
+  const allProjects = [...document.querySelectorAll(".single-project")];
+  const allProjectInfos = [...document.querySelectorAll(".project-info")];
+  const allProjectBgs = [...document.querySelectorAll(".single-project-bg")];
 
-        // Función para cambiar de slide - CORREGIDA
-        function createChangeSlideHandler(direction) {
-            return function () {
-                // Obtener todos los proyectos e información
-                const allProjects = [...document.querySelectorAll('.single-project')];
-                const allProjectInfos = [...document.querySelectorAll('.project-info')];
-                const allProjectBgs = [...document.querySelectorAll('.single-project-bg')];
-                
-                // Encontrar índices actuales
-                const currentIndex = allProjects.findIndex(project => project.hasAttribute('data-current'));
-                
-                // Determinar nuevo índice basado en la dirección
-                let newIndex;
-                if (direction === 1) {
-                    newIndex = (currentIndex + 1) % allProjects.length; // Avanzar (cíclico)
-                } else {
-                    newIndex = (currentIndex - 1 + allProjects.length) % allProjects.length; // Retroceder (cíclico)
-                }
-                
-                // Remover todos los atributos de estado
-                allProjects.forEach(project => {
-                    project.removeAttribute('data-current');
-                    project.removeAttribute('data-previous');
-                    project.removeAttribute('data-next');
-                });
-                
-                allProjectInfos.forEach(info => {
-                    info.removeAttribute('data-current');
-                    info.removeAttribute('data-previous');
-                    info.removeAttribute('data-next');
-                });
-                
-                allProjectBgs.forEach(bg => {
-                    bg.removeAttribute('data-current');
-                    bg.removeAttribute('data-previous');
-                    bg.removeAttribute('data-next');
-                });
-                
-                // Asignar nuevos estados
-                allProjects[newIndex].setAttribute('data-current', '');
-                allProjectInfos[newIndex].setAttribute('data-current', '');
-                allProjectBgs[newIndex].setAttribute('data-current', '');
-                
-                // Proyecto anterior (para efecto visual)
-                const prevIndex = (newIndex - 1 + allProjects.length) % allProjects.length;
-                allProjects[prevIndex].setAttribute('data-previous', '');
-                allProjectInfos[prevIndex].setAttribute('data-previous', '');
-                allProjectBgs[prevIndex].setAttribute('data-previous', '');
-                
-                // Proyecto siguiente (para efecto visual)
-                const nextIndex = (newIndex + 1) % allProjects.length;
-                allProjects[nextIndex].setAttribute('data-next', '');
-                allProjectInfos[nextIndex].setAttribute('data-next', '');
-                allProjectBgs[nextIndex].setAttribute('data-next', '');
-            };
-        }
+  // find current index
+  const currentIndex = allProjects.findIndex((project) =>
+    project.hasAttribute("data-current")
+  );
 
-        // Inicializar el slider después de cargar las imágenes
-        function init() {
-            const loader = document.querySelector(".loader");
-            const projects = [...document.querySelectorAll(".single-project")];
-            const projectsInfo = [...document.querySelectorAll(".project-info")];
-            const buttons = {
-                prev: document.querySelector(".slider--btn__prev"),
-                next: document.querySelector(".slider--btn__next"),
-            };
+  // determine new index
+  const newIndex = wrap(currentIndex + direction, allProjects.length);
 
-            if (loader) {
-                loader.style.opacity = "0";
-                loader.style.pointerEvents = "none";
-            }
+  // ACTUALIZAR Z-INDEX ANTES DE LA TRANSICIÓN
+  // Esto es crucial para que el orden de apilamiento sea correcto durante la animación
+  updateZIndex(allProjects, newIndex);
 
-            // Aplicar efecto de inclinación
-            projects.forEach((project, i) => {
-                const projectInner = project.querySelector(".single-project-inner");
-                const projectInfoInner = projectsInfo[i]?.querySelector(
-                    ".project-info__inner"
-                );
+  // Remover todos los atributos de estado
+  const removeAttributes = (elements) => {
+    elements.forEach((el) => {
+      el.removeAttribute("data-current");
+      el.removeAttribute("data-previous");
+      el.removeAttribute("data-next");
+    });
+  };
 
-                if (projectInner && projectInfoInner) {
-                    tilt(project, { target: [projectInner, projectInfoInner] });
-                }
-            });
+  removeAttributes(allProjects);
+  removeAttributes(allProjectInfos);
+  removeAttributes(allProjectBgs);
 
-            // Añadir event listeners - CORREGIDO
-            if (buttons.prev) {
-                buttons.prev.addEventListener("click", createChangeSlideHandler(-1));
-            }
-            if (buttons.next) {
-                buttons.next.addEventListener("click", createChangeSlideHandler(1)); // Corregido aquí
-            }
-        }
+  // Asignar nuevos estados
+  allProjects[newIndex].setAttribute("data-current", "");
+  allProjectInfos[newIndex].setAttribute("data-current", "");
+  allProjectBgs[newIndex].setAttribute("data-current", "");
 
-        // Configuración inicial (carga de imágenes)
-        function setup() {
-            const loaderText = document.querySelector(".loader__text");
-            const images = [...document.querySelectorAll(".project-image")];
-            const totalImages = images.length;
-            let loadedImages = 0;
-            let progress = { current: 0, target: 0 };
+  // Proyecto anterior
+  const prevIndex = wrap(newIndex - 1, allProjects.length);
+  allProjects[prevIndex].setAttribute("data-previous", "");
+  allProjectInfos[prevIndex].setAttribute("data-previous", "");
+  allProjectBgs[prevIndex].setAttribute("data-previous", "");
 
-            if (totalImages === 0) {
-                // Si no hay imágenes, inicializar directamente
-                init();
-                return;
-            }
+  // Proyecto siguiente
+  const nextIndex = wrap(newIndex + 1, allProjects.length);
+  allProjects[nextIndex].setAttribute("data-next", "");
+  allProjectInfos[nextIndex].setAttribute("data-next", "");
+  allProjectBgs[nextIndex].setAttribute("data-next", "");
 
-            images.forEach((image) => {
-                imagesLoaded(image, (instance) => {
-                    if (instance.isComplete) {
-                        loadedImages++;
-                        progress.target = loadedImages / totalImages;
+  // Asegurar que los z-index se mantengan después de la transición CSS
+  setTimeout(() => {
+    updateZIndex(allProjects, newIndex);
+  }, 50);
+}
 
-                        if (loadedImages === totalImages) {
-                            init();
-                        }
-                    }
-                });
-            });
+// Inicializar el slider
+function initSlider() {
+  const projects = [...document.querySelectorAll(".single-project")];
+  const projectsInfo = [...document.querySelectorAll(".project-info")];
+  const prevBtn = document.querySelector(".slider--btn__prev");
+  const nextBtn = document.querySelector(".slider--btn__next");
 
-            // Animación de progreso (solo si hay loader)
-            if (loaderText) {
-                raf.add(({ id }) => {
-                    progress.current = lerp(progress.current, progress.target, 0.06);
-                    const progressPercent = Math.round(progress.current * 100);
-                    loaderText.textContent = `${progressPercent}%`;
+  // Aplicar efecto de inclinación
+  const cleanUpTilt = [];
+  projects.forEach((project, i) => {
+    const projectInner = project.querySelector(".single-project-inner");
+    const projectInfoInner = projectsInfo[i]?.querySelector(
+      ".project-info__inner"
+    );
 
-                    if (progressPercent === 100) {
-                        raf.remove(id);
-                    }
-                });
-            }
-        }
+    if (projectInner && projectInfoInner) {
+      const cleanup = tilt(project, {
+        target: [projectInner, projectInfoInner],
+      });
+      cleanUpTilt.push(cleanup);
+    }
+  });
 
-        // Esperar a que el DOM esté listo
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", setup);
-        } else {
-            setup();
-        }
+  // Añadir event listeners a los botones
+  const prevHandler = () => changeSlide(-1);
+  const nextHandler = () => changeSlide(1);
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", prevHandler);
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener("click", nextHandler);
+  }
+
+  // Inicializar z-index correctamente
+  const currentIndex = projects.findIndex((p) =>
+    p.hasAttribute("data-current")
+  );
+  updateZIndex(projects, currentIndex);
+
+  // cleanup function
+  return () => {
+    cleanUpTilt.forEach((cleanup) => cleanup());
+    if (prevBtn) prevBtn.removeEventListener("click", prevHandler);
+    if (nextBtn) nextBtn.removeEventListener("click", nextHandler);
+  };
+}
+
+// Load images and then init slider
+function loadImagesAndInit() {
+  const images = [...document.querySelectorAll(".project-image")];
+  let loadedCount = 0;
+
+  if (images.length === 0) {
+    initSlider();
+    return;
+  }
+
+  const onImageLoad = () => {
+    loadedCount++;
+    if (loadedCount === images.length) {
+      initSlider();
+    }
+  };
+
+  images.forEach((img) => {
+    if (img.complete) {
+      onImageLoad();
+    } else {
+      img.addEventListener("load", onImageLoad);
+      img.addEventListener("error", onImageLoad);
+    }
+  });
+}
+
+//////////////////////
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", loadImagesAndInit);
+} else {
+  loadImagesAndInit();
+}
