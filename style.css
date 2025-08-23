@@ -116,11 +116,14 @@ section {
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease, filter 0.5s ease;
-  filter: blur(5px) brightness(0.7);
 }
 .project-card:hover .portfolio-grid-project-image {
   transform: scale(1.05);
-  filter: blur(0) brightness(1);
+  filter: blur(5px) brightness(0.7);
+}
+.project-card:hover .project-title {
+  backdrop-filter: none;
+  background-color: rgba(0, 0, 0, 0);
 }
 .project-content {
   position: absolute;
@@ -128,12 +131,15 @@ section {
   left: 0;
   right: 0;
   padding: 20px;
-
 }
 .project-title {
+  margin: auto;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  width: 80%;
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 10px;
   color: white;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
