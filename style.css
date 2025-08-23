@@ -120,7 +120,7 @@ section {
 }
 .project-card:hover .portfolio-grid-project-image {
   transform: scale(1.05);
-  filter: blur(0) brightness(0.5);
+  filter: blur(0) brightness(1);
 }
 .project-content {
   position: absolute;
@@ -128,7 +128,7 @@ section {
   left: 0;
   right: 0;
   padding: 20px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+
 }
 .project-title {
   font-size: 2.5rem;
