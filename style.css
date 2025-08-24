@@ -301,7 +301,7 @@ footer {
 /*=== Footer styles end ===*/
 /* === Gradient Styles === */
 #gradient {
-  background-color: #631e50;
+  background-color: #150C23;
   /* Fallback color to avoid white flashes*/
   position: fixed;
   top: 0;
@@ -934,6 +934,7 @@ button:focus {
   background: #06b6d4;
   color: white;
 }
+
 .project-tag[technology="WordPress"] {
   background: #0073AA;
   color: white;
