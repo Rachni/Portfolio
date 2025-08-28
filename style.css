@@ -6,8 +6,6 @@
   --slide-aspect: 16 / 9;
   --slide-transition-duration: 800ms;
   --slide-transition-easing: ease;
-  --font-archivo: "Archivo", sans-serif;
-  --font-clash-display: "Clash Display", sans-serif;
 }
 
 html,
@@ -17,6 +15,8 @@ body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
+  font-family: "Jost", serif;
+  color: white;
 }
 
 body::selection {
@@ -72,13 +72,23 @@ section {
 }
 
 .hero h1 {
-  font-family: "Titan One", sans-serif;
+  font-family: "Jost", sans-serif;
   font-size: 80px;
-  font-weight: 400;
+  font-weight: 700;
+}
+
+.hero h2 {
+  font-family: "Jost", serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: -20px;
+  margin-bottom: 20px;
 }
 
 .hero-title .hero-title-highlight {
   color: #3f0e8b;
+  font-family: "Titan One", cursive;
+  font-weight: 500;
 }
 
 .hero-title-small {
@@ -88,7 +98,8 @@ section {
 /*=== Hero section styles end === */
 /*=== Headings styles === */
 .heading {
-  font-family: "Fascinate", sans-serif;
+  font-family: "Titan One", sans-serif;
+  font-weight: 250;
   text-transform: uppercase;
   letter-spacing: 3px;
   color: white;
@@ -837,7 +848,7 @@ button:focus {
 }
 
 .project-info--text {
-  font-family: var(--font-clash-display);
+  font-family: "Jost", serif;
   color: #fff;
   overflow: hidden;
 }
@@ -874,7 +885,7 @@ button:focus {
 .project-info--text[data-description] {
   margin-left: 1cqw;
   font-size: min(1.5cqw, 0.95rem);
-  font-family: var(--font-archivo);
+  font-family: "Jost", serif;
   font-weight: 300;
 }
 
@@ -894,7 +905,7 @@ button:focus {
   margin-right: 8px;
 }
 
-/* Colores según tecnología */
+/* TAG color by technology */
 .project-tag[technology="PHP"] {
   background: #787cb5;
   color: white;
@@ -941,6 +952,51 @@ button:focus {
 }
 
 /* ========== FEATURED PROJECTS SLIDER END =============== */
+
+/*=== Project grid buttons styles ===*/
+
+.project-link-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  gap: 15px;
+  background-color: #181717;
+  outline: 3px #181717 solid;
+  outline-offset: -3px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 400ms;
+  text-decoration: none;
+  color: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.project-link-button .button-text {
+  color: white;
+  font-weight: 700;
+  font-size: 1em;
+  transition: 400ms;
+  margin: 0;
+}
+
+.project-link-button svg path {
+  transition: 400ms;
+}
+
+.project-link-button:hover {
+  background-color: white;
+}
+
+.project-link-button:hover .button-text {
+  color: #181717;
+}
+
+.project-link-button:hover svg path {
+  fill: #181717;
+}
+
+/*=== Project grid buttons styles end ===*/
 
 @media (max-width: 600px) {
   .project-card {

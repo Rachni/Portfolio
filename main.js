@@ -357,8 +357,4 @@ function loadImagesAndInit() {
 }
 
 //////////////////////
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", loadImagesAndInit);
-} else {
-  loadImagesAndInit();
-}
+loadImagesAndInit();
