@@ -683,6 +683,10 @@ button:focus {
 }
 
 /* -------------------- FEATURED PROJECTS -------------------- */
+.featured-projects-section .heading{
+  padding-left: 40px;
+  padding-right: 40px;
+}
 .single-project {
   --slide-tx: 0px;
   --slide-ty: 0vh;
