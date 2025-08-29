@@ -99,10 +99,14 @@ section {
 /*=== Headings styles === */
 .heading {
   font-family: "Titan One", sans-serif;
+  font-size: 30px;
   font-weight: 250;
   text-transform: uppercase;
   letter-spacing: 3px;
   color: white;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 /*=== Headings styles end === */
@@ -121,7 +125,7 @@ section {
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
+  gap: 40px;
 }
 
 .project-card {
@@ -324,59 +328,149 @@ footer {
 
 /* === Gradient styles end === */
 /* === Social buttons styles === */
+/* Layout mejorado - Botones en fila */
 .hero-buttons {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.socials {
+.social-buttons {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
-.flex-center {
-  display: flex;
-  justify-content: center;
+/* CV Button - Glassmorphism Universal */
+.cv-btn {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-family: 'Jost', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
-}
-
-.social-btn {
-  border: 2px solid #ff9250;
-  cursor: pointer;
-  height: 50px;
-  width: 50px;
-  width: 50px;
-  color: #333;
-  border-radius: 10px;
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-  background: white;
-  margin: 5px;
-  transition: 1s;
-}
-
-.social-btn span {
-  width: 0px;
+  gap: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  transition: 1s;
-  text-align: center;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.cv-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.cv-btn:hover::before {
+  left: 100%;
+}
+
+.cv-btn:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.3),
+    0 0 24px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cv-btn:active {
+  transform: translateY(-1px);
+}
+
+.cv-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.cv-btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* Botones Sociales - Efectos Universales */
+.social-btn {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.social-btn svg {
+  width: 26px;
+  height: 26px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
 }
 
 .social-btn:hover {
-  width: 150px;
-  border-radius: 5px;
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-.social-btn:hover span {
-  padding: 2px;
-  width: max-content;
+.social-btn:hover svg {
+  transform: scale(1.1);
 }
 
 #linkedin svg {
-  fill: #0e76a8;
+  fill: #0077B5;
 }
 
-#github {
-  fill: #333;
+#linkedin:hover svg {
+  fill: #0077B5;
+}
+
+#github svg {
+  fill: #e6e6e6;
+}
+
+#github:hover svg {
+  fill: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .social-buttons {
+    align-self: flex-start;
+  }
 }
 
 /* === Social buttons styles end === */
@@ -683,10 +777,11 @@ button:focus {
 }
 
 /* -------------------- FEATURED PROJECTS -------------------- */
-.featured-projects-section .heading{
+.featured-projects-section .heading {
   padding-left: 40px;
   padding-right: 40px;
 }
+
 .single-project {
   --slide-tx: 0px;
   --slide-ty: 0vh;
@@ -963,12 +1058,12 @@ button:focus {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 15px;
+  padding: 5px 10px;
   gap: 15px;
   background-color: #181717;
-  outline: 3px #181717 solid;
+  outline: 2px #181717 solid;
   outline-offset: -3px;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   transition: 400ms;
   text-decoration: none;
@@ -990,6 +1085,7 @@ button:focus {
 
 .project-link-button:hover {
   background-color: white;
+  outline: 2px #dec2ed solid;
 }
 
 .project-link-button:hover .button-text {
