@@ -90,12 +90,10 @@ class Vec2 {
     this.x = x;
     this.y = y;
   }
-
   set(x, y) {
     this.x = x;
     this.y = y;
   }
-
   lerp(v, t) {
     this.x = lerp(this.x, v.x, t);
     this.y = lerp(this.y, v.y, t);
@@ -110,30 +108,25 @@ class Raf {
     this.isRunning = false;
     this.raf = this.raf.bind(this);
   }
-
   start() {
     if (!this.isRunning) {
       this.isRunning = true;
       this.raf();
     }
   }
-
   stop() {
     if (this.isRunning) {
       cancelAnimationFrame(this.rafId);
       this.isRunning = false;
     }
   }
-
   raf() {
     this.callbacks.forEach((callback) => callback());
     this.rafId = requestAnimationFrame(this.raf);
   }
-
   add(callback) {
     this.callbacks.push(callback);
   }
-
   remove(callback) {
     this.callbacks = this.callbacks.filter((cb) => cb !== callback);
   }
@@ -188,12 +181,9 @@ function tilt(node, options = {}) {
     bgPos.target.set(0, 0);
   };
 
-  /////////////////
-
   trigger.addEventListener("mousemove", onMouseMove);
   trigger.addEventListener("mouseleave", onMouseLeave);
 
-  //////////////////
   // Cleanup function
   return () => {
     raf.remove(updateTilt);
@@ -205,24 +195,16 @@ function tilt(node, options = {}) {
 // Función para actualizar z-index de manera consistente
 function updateZIndex(allProjects, currentIndex) {
   allProjects.forEach((project, index) => {
-    // Reset first
     project.style.zIndex = "";
-
-    // Apply z-index based on distance from current
     if (index === currentIndex) {
       project.style.zIndex = "30";
     } else {
       const distanceForward = wrap(index - currentIndex, allProjects.length);
       const distanceBackward = wrap(currentIndex - index, allProjects.length);
       const minDistance = Math.min(distanceForward, distanceBackward);
-
-      if (minDistance === 1) {
-        project.style.zIndex = "25";
-      } else if (minDistance === 2) {
-        project.style.zIndex = "20";
-      } else {
-        project.style.zIndex = "10";
-      }
+      if (minDistance === 1) project.style.zIndex = "25";
+      else if (minDistance === 2) project.style.zIndex = "20";
+      else project.style.zIndex = "10";
     }
   });
 }
@@ -233,19 +215,30 @@ function changeSlide(direction) {
   const allProjectInfos = [...document.querySelectorAll(".project-info")];
   const allProjectBgs = [...document.querySelectorAll(".single-project-bg")];
 
+  if (!allProjects.length) return;
+
   // find current index
   const currentIndex = allProjects.findIndex((project) =>
     project.hasAttribute("data-current")
   );
+  if (currentIndex === -1) return;
 
-  // determine new index
   const newIndex = wrap(currentIndex + direction, allProjects.length);
 
-  // ACTUALIZAR Z-INDEX ANTES DE LA TRANSICIÓN
-  // Esto es crucial para que el orden de apilamiento sea correcto durante la animación
-  updateZIndex(allProjects, newIndex);
+  // clear inline transforms/transitions from any previous drag so layout / stacking is predictable
+  allProjects.forEach((p) => {
+    p.style.transition = "";
+    p.style.transform = "";
+  });
+  allProjectInfos.forEach((p) => {
+    p.style.transition = "";
+    p.style.transform = "";
+  });
+  allProjectBgs.forEach((p) => {
+    p.style.transition = "";
+    p.style.transform = "";
+  });
 
-  // Remover todos los atributos de estado
   const removeAttributes = (elements) => {
     elements.forEach((el) => {
       el.removeAttribute("data-current");
@@ -258,27 +251,30 @@ function changeSlide(direction) {
   removeAttributes(allProjectInfos);
   removeAttributes(allProjectBgs);
 
-  // Asignar nuevos estados
+  // set new attributes
   allProjects[newIndex].setAttribute("data-current", "");
-  allProjectInfos[newIndex].setAttribute("data-current", "");
-  allProjectBgs[newIndex].setAttribute("data-current", "");
+  allProjectInfos[newIndex] &&
+    allProjectInfos[newIndex].setAttribute("data-current", "");
+  allProjectBgs[newIndex] &&
+    allProjectBgs[newIndex].setAttribute("data-current", "");
 
-  // Proyecto anterior
   const prevIndex = wrap(newIndex - 1, allProjects.length);
   allProjects[prevIndex].setAttribute("data-previous", "");
-  allProjectInfos[prevIndex].setAttribute("data-previous", "");
-  allProjectBgs[prevIndex].setAttribute("data-previous", "");
+  allProjectInfos[prevIndex] &&
+    allProjectInfos[prevIndex].setAttribute("data-previous", "");
+  allProjectBgs[prevIndex] &&
+    allProjectBgs[prevIndex].setAttribute("data-previous", "");
 
-  // Proyecto siguiente
   const nextIndex = wrap(newIndex + 1, allProjects.length);
   allProjects[nextIndex].setAttribute("data-next", "");
-  allProjectInfos[nextIndex].setAttribute("data-next", "");
-  allProjectBgs[nextIndex].setAttribute("data-next", "");
+  allProjectInfos[nextIndex] &&
+    allProjectInfos[nextIndex].setAttribute("data-next", "");
+  allProjectBgs[nextIndex] &&
+    allProjectBgs[nextIndex].setAttribute("data-next", "");
 
-  // Asegurar que los z-index se mantengan después de la transición CSS
-  setTimeout(() => {
-    updateZIndex(allProjects, newIndex);
-  }, 50);
+  // ensure z-index is updated after DOM attributes are applied and any reflow has occurred
+  requestAnimationFrame(() => updateZIndex(allProjects, newIndex));
+  setTimeout(() => updateZIndex(allProjects, newIndex), 60);
 }
 
 // Inicializar el slider
@@ -288,31 +284,140 @@ function initSlider() {
   const prevBtn = document.querySelector(".slider--btn__prev");
   const nextBtn = document.querySelector(".slider--btn__next");
 
-  // Aplicar efecto de inclinación
-  const cleanUpTilt = [];
-  projects.forEach((project, i) => {
-    const projectInner = project.querySelector(".single-project-inner");
-    const projectInfoInner = projectsInfo[i]?.querySelector(
-      ".project-info__inner"
-    );
+  if (!projects.length) return;
 
-    if (projectInner && projectInfoInner) {
-      const cleanup = tilt(project, {
-        target: [projectInner, projectInfoInner],
-      });
-      cleanUpTilt.push(cleanup);
-    }
+  // Aplicar efecto de inclinación (leave active during drag)
+  let cleanUpTilt = [];
+  const initTilt = () => {
+    cleanUpTilt.forEach((c) => c());
+    cleanUpTilt = [];
+    projects.forEach((project, i) => {
+      const projectInner = project.querySelector(".single-project-inner");
+      const projectInfoInner = projectsInfo[i]?.querySelector(
+        ".project-info__inner"
+      );
+      if (projectInner && projectInfoInner) {
+        const cleanup = tilt(project, {
+          target: [projectInner, projectInfoInner],
+        });
+        cleanUpTilt.push(cleanup);
+      } else if (projectInner) {
+        const cleanup = tilt(project, { target: projectInner });
+        cleanUpTilt.push(cleanup);
+      }
+    });
+  };
+  initTilt();
+
+  // Prevent native image drag + ensure images won't trigger HTML5 drag (fixes stop cursor)
+  projects.forEach((p) => {
+    p.querySelectorAll("img").forEach((img) => {
+      img.draggable = false;
+      img.addEventListener("dragstart", (ev) => ev.preventDefault());
+    });
   });
 
   // Añadir event listeners a los botones
   const prevHandler = () => changeSlide(-1);
   const nextHandler = () => changeSlide(1);
 
-  if (prevBtn) {
-    prevBtn.addEventListener("click", prevHandler);
-  }
-  if (nextBtn) {
-    nextBtn.addEventListener("click", nextHandler);
+  if (prevBtn) prevBtn.addEventListener("click", prevHandler);
+  if (nextBtn) nextBtn.addEventListener("click", nextHandler);
+
+  // Drag to change slides (pointer based)
+  const sliderEl =
+    document.querySelector(".projects-slider") ||
+    projects[0]?.parentElement ||
+    document.querySelector(".projects");
+
+  // allow horizontal gestures via pointer events but preserve default cursor (no forced grabbing cursor)
+  if (sliderEl)
+    sliderEl.style.touchAction = sliderEl.style.touchAction || "pan-y";
+
+  let pointerId = null;
+  let startX = 0;
+  let lastX = 0;
+  let dragging = false;
+  const DRAG_THRESHOLD = 60; // px
+
+  const onPointerDown = (e) => {
+    // only primary button / pointer
+    if (e.button && e.button !== 0) return;
+
+    // Prevent default drag behavior for OS-level image drag — images already set draggable=false, but keep lightweight preventDefault
+    if (e.type === "pointerdown") {
+      try {
+        e.preventDefault();
+      } catch (err) {}
+    }
+
+    pointerId = e.pointerId;
+    startX = e.clientX;
+    lastX = startX;
+    dragging = true;
+
+    try {
+      sliderEl &&
+        sliderEl.setPointerCapture &&
+        sliderEl.setPointerCapture(pointerId);
+    } catch (err) {}
+
+    // prevent text selection during drag
+    document.body.style.userSelect = "none";
+  };
+
+  const onPointerMove = (e) => {
+    if (!dragging || e.pointerId !== pointerId) return;
+    const dx = e.clientX - startX;
+    lastX = e.clientX;
+
+    // Only move the current card for a simple left/right movement (avoid overlap / close stacking)
+    const currentIndex = projects.findIndex((p) =>
+      p.hasAttribute("data-current")
+    );
+    if (currentIndex === -1) return;
+
+    const current = projects[currentIndex];
+    if (current) {
+      // translate only the active card for direct, simple feedback
+      current.style.transform = `translateX(${dx}px)`;
+    }
+  };
+
+  const endDrag = (_e) => {
+    if (!dragging) return;
+    dragging = false;
+    try {
+      sliderEl &&
+        sliderEl.releasePointerCapture &&
+        sliderEl.releasePointerCapture(pointerId);
+    } catch (err) {}
+
+    const dx = lastX - startX;
+
+    // animate reset of transforms for all projects (only current will have a transform)
+    projects.forEach((p) => {
+      p.style.transition = "transform 260ms cubic-bezier(.2,.8,.2,1)";
+      p.style.transform = "";
+    });
+    // clear transitions after animation
+    setTimeout(() => {
+      projects.forEach((p) => (p.style.transition = ""));
+    }, 300);
+
+    // change slide if beyond threshold (left/right simple movement)
+    if (dx > DRAG_THRESHOLD) changeSlide(-1);
+    else if (dx < -DRAG_THRESHOLD) changeSlide(1);
+
+    // restore selection
+    document.body.style.userSelect = "";
+  };
+
+  if (sliderEl) {
+    sliderEl.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
   }
 
   // Inicializar z-index correctamente
@@ -326,6 +431,12 @@ function initSlider() {
     cleanUpTilt.forEach((cleanup) => cleanup());
     if (prevBtn) prevBtn.removeEventListener("click", prevHandler);
     if (nextBtn) nextBtn.removeEventListener("click", nextHandler);
+    if (sliderEl) {
+      sliderEl.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", endDrag);
+      window.removeEventListener("pointercancel", endDrag);
+    }
   };
 }
 
