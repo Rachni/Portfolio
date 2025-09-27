@@ -107,7 +107,7 @@
     <!-- Content section -->
     <div class="main-container">
       <!-- About me section -->
-      <section class="aboutme-section">
+      <section class="aboutme-section slide-in">
         <h1 class="heading">About me</h1>
         <div class="aboutme-content">
           <p>
@@ -123,7 +123,7 @@
         </div>
       </section>
       <!-- featured projects section -->
-      <section class="featured-projects-section">
+      <section class="featured-projects-section slide-in">
         <h1 class="heading">Featured Projects</h1>
         <div class="featured-projects-slider">
           <!-- Botón anterior -->
@@ -158,14 +158,7 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="single-project-bg"
-                style="
-                  --bg: url(https://devloop01.github.io/voyage-slider/images/scotland-mountains.jpg);
-                  --dir: 0;
-                "
-                data-current
-              ></div>
+              <div class="single-project-bg" data-current></div>
 
               <!-- Proyecto 2 (siguiente) -->
               <div class="single-project" data-next>
@@ -176,14 +169,7 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="single-project-bg"
-                style="
-                  --bg: url(https://devloop01.github.io/voyage-slider/images/machu-pichu.jpg);
-                  --dir: 1;
-                "
-                data-next
-              ></div>
+              <div class="single-project-bg" data-next></div>
 
               <!-- Proyecto 3 (anterior) -->
               <div class="single-project" data-previous>
@@ -197,14 +183,7 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="single-project-bg"
-                style="
-                  --bg: url(https://devloop01.github.io/voyage-slider/images/chamonix.jpg);
-                  --dir: -1;
-                "
-                data-previous
-              ></div>
+              <div class="single-project-bg" data-previous></div>
             </div>
 
             <!-- Contenedor de información -->
@@ -325,7 +304,7 @@
         </div>
       </section>
       <!-- Technologies section -->
-      <section class="technologies-section">
+      <section class="technologies-section slide-in">
         <h1 class="heading">Technologies</h1>
         <div class="technologies-scroller-container">
           <ul class="technologies-scroller">
@@ -525,13 +504,13 @@
           </ul>
         </div>
       </section>
-      <!-- Portfolio -->
 
+      <!-- Portfolio -->
       <section class="portfolio-section">
-        <h1 class="heading">Portfolio</h1>
+        <h1 class="heading slide-in">Portfolio</h1>
         <div class="portfolio-grid">
           <!-- Project 1 -->
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">WIP</span>
             <img
               src="img/gameshelf1.png"
@@ -560,8 +539,8 @@
               <h3 class="project-title">GameShelf</h3>
               <p class="project-description">
                 Users can discover, rate and organize video games into lists,
-                features API calls to fetch game data and a fun and customizable
-                user profile.
+                features API calls to fetch game data and a customizable user
+                profile.
               </p>
               <div class="project-technologies">
                 <span class="project-tag" technology="PHP">Laravel</span>
@@ -574,6 +553,8 @@
               <div class="project-links">
                 <a
                   href="https://github.com/Rachni/GameShelf-Video-Game-Rating-App"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="project-link-button"
                 >
                   <svg
@@ -596,7 +577,7 @@
 
           <!-- Project 2 -->
 
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">WIP</span>
             <img
               src="img/dnddbindex.png"
@@ -620,6 +601,8 @@
               <div class="project-links">
                 <a
                   href="https://github.com/Rachni/dnd-web-database"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="project-link-button"
                 >
                   <svg
@@ -642,7 +625,7 @@
 
           <!-- Project 3 -->
 
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">FINISHED</span>
             <img
               src="img/Ajax-product-rating.png"
@@ -664,6 +647,8 @@
               <div class="project-links">
                 <a
                   href="https://github.com/Rachni/Product-Rating-PHP-AJAX"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="project-link-button"
                 >
                   <svg
@@ -686,7 +671,7 @@
 
           <!-- Project 4 -->
 
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">FINISHED</span>
             <img
               src="img/architecture-web.png"
@@ -714,7 +699,7 @@
 
           <!-- Project 5 -->
 
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">FINISHED</span>
             <img
               src="img/therapist-web.png"
@@ -742,7 +727,7 @@
 
           <!-- Project 6 -->
 
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">FINISHED</span>
             <img
               src="img/hidraulics-web.png"
@@ -769,7 +754,7 @@
           </div>
 
           <!-- Project 7 -->
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">FINISHED</span>
             <img
               src="img/masqueradb-diag.jpg"
@@ -803,6 +788,8 @@
               <div class="project-links">
                 <a
                   href="https://github.com/Rachni/masqueraDB"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="project-link-button"
                 >
                   <svg
@@ -823,7 +810,7 @@
             </div>
           </div>
           <!-- Project 8 -->
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">FINISHED</span>
             <img
               src="img/php-ecommerce.png"
@@ -831,7 +818,7 @@
               class="portfolio-grid-project-image"
             />
             <div class="project-content">
-              <h3 class="project-title">eCommerce: OOP, cart and packages</h3>
+              <h3 class="project-title">eCommerce 2</h3>
               <p class="project-description">
                 Users can purchase educational books. The project focuses on the
                 use of classes and object-oriented principles to simulate a
@@ -846,6 +833,8 @@
               <div class="project-links">
                 <a
                   href="https://github.com/Rachni/PHP-OOP-eCommerce"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="project-link-button"
                 >
                   <svg
@@ -868,7 +857,7 @@
 
           <!-- Project 9 -->
 
-          <div class="project-card">
+          <div class="project-card slide-in">
             <span class="project-status">FINISHED</span>
             <img
               src="img/cookies-cart-language-theme.png"
@@ -876,12 +865,10 @@
               class="portfolio-grid-project-image"
             />
             <div class="project-content">
-              <h3 class="project-title">eCommerce: language, cart and theme</h3>
+              <h3 class="project-title">eCommerce 1</h3>
               <p class="project-description">
-                Manages user preferences using cookies, while also providing
-                basic shopping cart functionality. It supports multiple
-                languages and allows users to customize their display
-                preferences.
+                Practice for the use of cookies, multiple language support and
+                display preferences
               </p>
               <div class="project-technologies">
                 <span class="project-tag" technology="PHP">PHP</span
@@ -892,6 +879,8 @@
               <div class="project-links">
                 <a
                   href="https://github.com/Rachni/PHP-Cart-Cookies"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="project-link-button"
                 >
                   <svg
@@ -951,7 +940,7 @@
         </div>
       </div>
       <!-- CONTACT SECTION -->
-      <section class="contact-section">
+      <section class="contact-section slide-in">
         <div class="contact-header">
           <h2 class="heading">Get In Touch</h2>
         </div>
@@ -976,7 +965,11 @@
                 </div>
               </a>
 
-              <a href="https://www.linkedin.com/in/anabelmarper/">
+              <a
+                href="https://www.linkedin.com/in/anabelmarper/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div class="contact-method">
                   <svg viewBox="0 0 24 24">
                     <path
@@ -986,7 +979,11 @@
                   <span>linkedin.com/in/anabelmarper</span>
                 </div>
               </a>
-              <a href="https://github.com/Rachni">
+              <a
+                href="https://github.com/Rachni"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div class="contact-method">
                   <svg viewBox="0 0 24 24">
                     <path

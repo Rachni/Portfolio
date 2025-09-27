@@ -58,7 +58,29 @@ const neat = new NeatGradient({
 
 // cleaning if page reloads
 window.addEventListener("beforeunload", () => neat.destroy());
+// ================ SLIDE IN ANIMATIONS ============= //
+document.addEventListener("DOMContentLoaded", function () {
+  const slideInElements = document.querySelectorAll(".slide-in");
 
+  const observerOptions = {
+    root: null, //usa viewport como container
+    rootMargin: "0px",
+    threshold: 0.3, //activa cuando está el 10% del elemento visible
+  };
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+        observer.unobserve(entry.target); //liberar el observer del elemento después de activar
+      } else {
+        entry.target.classList.remove("active");
+      }
+    });
+  }, observerOptions);
+  slideInElements.forEach(function (element) {
+    observer.observe(element);
+  });
+});
 // ================ SCROLLER ======================== //
 const scroller = document.querySelector(".technologies-scroller-container");
 
